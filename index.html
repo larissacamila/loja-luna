@@ -272,108 +272,52 @@ body {
 <script>
 //const API_URL = "https://luna-api.onrender.com/chat";
 //const API_URL = "https://luna-ad4s.onrender.com/chat";  
+<script>
 let memory = [];
 
-function entrarLoja() {
-  document.getElementById("opening").style.display = "none";
-  document.getElementById("store").style.display = "block";
-}
-
-function toggleChat() {
-  const chat = document.getElementById("chat");
-  chat.style.display = chat.style.display === "none" ? "block" : "none";
-}
-
-function falarLuna(texto) {
-  toggleChat();
-  document.getElementById("input").value = texto;
-  enviar();
-}
-
-async function enviar() {
+function enviar() {
   const input = document.getElementById("input");
   const msg = input.value.trim();
   if (!msg) return;
 
   input.value = "";
   add("Você", msg);
-fetch("https://luna-ad4s.onrender.com/chat", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    message: pergunta,
-    memory: userMemory
+
+  fetch("https://luna-ad4s.onrender.com/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: msg,
+      memory: memory
+    })
   })
-})
-.then(res => res.json())
-.then(data => {
-  console.log("Resposta da API:", data); // 👈 IMPORTANTE
-  const resposta = data.resposta || "🌙 Luna não conseguiu responder.";
-  addMessage("Luna", resposta);
-})
-.catch(err => {
-  console.error("Erro fetch:", err);
-  addMessage("Luna", "🌙 Erro ao conectar com a Luna.");
-});
-</script>
-<script>
-const produtos = [
-  {
-    nome: "Smartphone Samsung",
-    descricao: "Ótimo desempenho para o dia a dia",
-    imagem: "assets/produtos/samsung.jpeg",
-    link: "https://mercadolivre.com.br/SEULINK",
-    tags: ["celular", "tecnologia", "eletronico"]
-  },
-  {
-    nome: "Fone Bluetooth",
-    descricao: "Som limpo e bateria durável",
-    imagem: "assets/produtos/fone.jpg",
-    link: "https://mercadolivre.com.br/SEULINK",
-    tags: ["fone", "audio", "tecnologia"]
-  },
-  {
-    nome: "Cafeteira Elétrica",
-    descricao: "Praticidade para o dia a dia",
-    imagem: "assets/produtos/cafeteira.jpg",
-    link: "https://mercadolivre.com.br/SEULINK",
-    tags: ["casa", "cozinha", "cafe"]
-  }
-];
-
-function mostrarProdutosPorTag(tag) {
-  const container = document.getElementById("produtos");
-  container.innerHTML = "";
-
-  const filtrados = produtos.filter(p =>
-    p.tags.includes(tag)
-  );
-
-  if (filtrados.length === 0) {
-    container.innerHTML = "<p>Nenhum produto encontrado.</p>";
-    return;
-  }
-
-  filtrados.forEach(p => {
-    container.innerHTML += `
-      <div class="card-produto">
-        <img src="${p.imagem}">
-        <h3>${p.nome}</h3>
-        <p>${p.descricao}</p>
-        <a href="${p.link}" target="_blank">Comprar</a>
-      </div>
-    `;
+  .then(res => res.json())
+  .then(data => {
+    console.log("Resposta da API:", data);
+    const resposta = data.resposta || "🌙 Luna não conseguiu responder.";
+    add("Luna", resposta);
+    memory.push({ user: msg, luna: resposta });
+  })
+  .catch(err => {
+    console.error("Erro fetch:", err);
+    add("Luna", "🌙 Erro ao conectar com a Luna.");
   });
 }
 
-// 🔥 EXEMPLO INICIAL
+function add(autor, texto) {
+  const div = document.createElement("div");
+  div.innerHTML = `<strong>${autor}:</strong> ${texto}`;
+  document.getElementById("messages").appendChild(div);
+}
+
 mostrarProdutosPorTag("tecnologia");
 </script>
 </body>
 
 </html>
+
 
 
 
