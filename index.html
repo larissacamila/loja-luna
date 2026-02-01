@@ -6,25 +6,32 @@
 <title>Loja da Luna 🌙</title>
 
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: url("assets/imagens/fundo-loja.jpeg") center/cover fixed no-repeat;
-  color: #fff;
+  overflow-x: hidden;
 }
 
-/* ============ ABERTURA ============ */
+/* ================= ABERTURA ================= */
 #opening {
   position: fixed;
   inset: 0;
   background: url("assets/imagens/abertura.jpeg") center/cover no-repeat;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  color: #fff;
   z-index: 999;
+}
+
+#opening h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
 }
 
 #opening button {
@@ -36,29 +43,42 @@ body {
   background: #ffcc66;
 }
 
-/* ============ LOJA ============ */
+/* ================= LOJA ================= */
 #store {
   display: none;
   min-height: 100vh;
-  padding: 40px;
-  background: rgba(0,0,0,0.65);
+  background: url("assets/imagens/fundo-loja.jpeg") center/cover fixed no-repeat;
+  padding: 500px;
 }
 
-h2 { color: #ffcc66; text-align: center; }
+/* Overlay */
+#store::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: -1;
+}
 
-/* ============ PRODUTOS DESTAQUE ============ */
+h2 {
+  color: #ffcc66;
+  text-align: center;
+}
+
+/* ================= PRODUTOS ================= */
 .products {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
-  max-width: 10px;
+  max-width: 1000px;
   margin: auto;
 }
 
 .product {
   background: rgba(30,30,45,0.9);
-  border-radius: 100px;
-  padding: 50px;
+  border-radius: 10px;
+  padding: 10px;
+  color: #fff;
   text-align: center;
 }
 
@@ -67,13 +87,23 @@ h2 { color: #ffcc66; text-align: center; }
   border-radius: 8px;
 }
 
-/* ============ LUNA ============ */
+.product button {
+  margin-top: 10px;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  background: #ffcc66;
+  cursor: pointer;
+}
+
+/* ================= LUNA ================= */
 #luna {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 110px;
-  cursor: pointer;
+  width: 120px;
+  text-align: center;
+  z-index: 10;
 }
 
 #luna img {
@@ -82,10 +112,10 @@ h2 { color: #ffcc66; text-align: center; }
   border: 3px solid #ffcc66;
 }
 
-/* ============ CHAT ============ */
+/* ================= CHAT ================= */
 #chat {
   position: fixed;
-  bottom: 150px;
+  bottom: 160px;
   right: 20px;
   width: 260px;
   background: #1f1f2d;
@@ -94,9 +124,10 @@ h2 { color: #ffcc66; text-align: center; }
   display: none;
 }
 
-#messages {
+#chat div {
   max-height: 200px;
   overflow-y: auto;
+  color: #fff;
   font-size: 14px;
 }
 
@@ -106,10 +137,37 @@ h2 { color: #ffcc66; text-align: center; }
   margin-top: 5px;
 }
 
-/* ============ PRODUTOS POR TAG ============ */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+ 
+
+  /* 🔥 FUNDO */
+  background-image: url("../assets/imagens/fundo-loja.jpg");
+  background-size: cover;        /* ocupa toda a tela */
+  background-position: center;   /* centraliza */
+  background-repeat: no-repeat;  /* não repete */
+  background-attachment: fixed;  /* efeito moderno */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .loja-container {
+  width: 100%;
   max-width: 1100px;
-  margin: 40px auto;
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.titulo-loja {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffcc66;
 }
 
 .produtos {
@@ -123,13 +181,29 @@ h2 { color: #ffcc66; text-align: center; }
   border-radius: 14px;
   padding: 15px;
   text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  transition: transform 0.3s;
+}
+
+.card-produto:hover {
+  transform: scale(1.05);
 }
 
 .card-produto img {
-  width: 10%;
+  width: 100%;
   height: 180px;
   object-fit: cover;
   border-radius: 10px;
+}
+
+.card-produto h3 {
+  margin: 10px 0 5px;
+  color: #fff;
+}
+
+.card-produto p {
+  font-size: 14px;
+  color: #ccc;
 }
 
 .card-produto a {
@@ -142,6 +216,7 @@ h2 { color: #ffcc66; text-align: center; }
   text-decoration: none;
   font-weight: bold;
 }
+
 </style>
 </head>
 
@@ -149,7 +224,7 @@ h2 { color: #ffcc66; text-align: center; }
 
 <!-- ABERTURA -->
 <div id="opening">
-  <h1>🌙 Loja da Luna</h1>
+  <h1>🌙 Bem-vindo à Loja da Luna</h1>
   <p>Sua assistente inteligente de compras</p>
   <button onclick="entrarLoja()">Entrar</button>
 </div>
@@ -160,15 +235,20 @@ h2 { color: #ffcc66; text-align: center; }
 
   <div class="products">
     <div class="product">
-      <img src="assets/imagens/produtos/samsung_galax.jpg">
-      <h4>Smartphone</h4>
-      <button onclick="falarLuna('Quero um celular bom')">Perguntar à Luna</button>
+      <img src="assets/imagens/produtos/samsung.jpeg">
+      <h4>Celular</h4>
+      <button onclick="falarLuna('Quero saber mais sobre este produto')">
+        Perguntar à Luna
+      </button>
     </div>
-  </div>
 
-  <div class="loja-container">
-    <h2>🛒 Produtos recomendados</h2>
-    <div class="produtos" id="produtos"></div>
+    <div class="product">
+      <img src="assets/imagens/produtos/sachi.png">
+      <h4>Outro Produto</h4>
+      <button onclick="falarLuna('Este produto tem garantia?')">
+        Perguntar à Luna
+      </button>
+    </div>
   </div>
 </div>
 
@@ -182,9 +262,15 @@ h2 { color: #ffcc66; text-align: center; }
   <div id="messages"></div>
   <input id="input" placeholder="Pergunte algo..." onkeydown="if(event.key==='Enter')enviar()">
 </div>
+<div class="loja-container">
 
+  <h2 class="titulo-loja">🛒 Produtos recomendados</h2>
+
+  <div class="produtos" id="produtos"></div>
+
+</div>
 <script>
-const API_URL = "https://luna-ad4s.onrender.com/chat";
+const API_URL = "https://luna-api.onrender.com/chat";
 let memory = [];
 
 function entrarLoja() {
@@ -203,7 +289,7 @@ function falarLuna(texto) {
   enviar();
 }
 
-function enviar() {
+async function enviar() {
   const input = document.getElementById("input");
   const msg = input.value.trim();
   if (!msg) return;
@@ -211,34 +297,50 @@ function enviar() {
   input.value = "";
   add("Você", msg);
 
-  fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: msg, memory })
-  })
-  .then(res => res.json())
-  .then(data => {
-    const resposta = data.resposta || "🌙 Luna não conseguiu responder.";
-    add("Luna", resposta);
-    memory.push({ user: msg, luna: resposta });
-  })
-  .catch(() => add("Luna", "🌙 Erro ao conectar com a Luna."));
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ message: msg, memory })
+    });
+
+    const data = await res.json();
+    memory.push({user: msg, luna: data.resposta});
+    add("Luna", data.resposta);
+
+  } catch {
+    add("Luna", "Erro ao conectar com a API 😢");
+  }
 }
 
-function add(autor, texto) {
-  const div = document.createElement("div");
-  div.innerHTML = `<strong>${autor}:</strong> ${texto}`;
-  document.getElementById("messages").appendChild(div);
+function add(nome, texto) {
+  const div = document.getElementById("messages");
+  div.innerHTML += `<p><b>${nome}:</b> ${texto}</p>`;
+  div.scrollTop = div.scrollHeight;
 }
-
-/* ===== PRODUTOS POR TAG ===== */
+</script>
+<script>
 const produtos = [
   {
     nome: "Smartphone Samsung",
-    descricao: "Ótimo para o dia a dia",
-    imagem: "assets/imagens/produtos/sachi.jpg",
+    descricao: "Ótimo desempenho para o dia a dia",
+    imagem: "assets/produtos/samsung.jpg",
+    link: "https://mercadolivre.com/sec/2Mu1MeL",
+    tags: ["celular", "tecnologia", "eletronico"]
+  },
+  {
+    nome: "Fone Bluetooth",
+    descricao: "Som limpo e bateria durável",
+    imagem: "assets/produtos/fone.jpg",
+    link: "https://mercadolivre.com.br/SEULINK",
+    tags: ["fone", "audio", "tecnologia"]
+  },
+  {
+    nome: "Cafeteira Elétrica",
+    descricao: "Praticidade para o dia a dia",
+    imagem: "assets/produtos/cafeteira.jpg",
     link: "https://mercadolivre.com/sec/2Zmyww7",
-    tags: ["tecnologia", "celular"]
+    tags: ["casa", "cozinha", "cafe"]
   }
 ];
 
@@ -246,27 +348,29 @@ function mostrarProdutosPorTag(tag) {
   const container = document.getElementById("produtos");
   container.innerHTML = "";
 
-  produtos.filter(p => p.tags.includes(tag)).forEach(p => {
+  const filtrados = produtos.filter(p =>
+    p.tags.includes(tag)
+  );
+
+  if (filtrados.length === 0) {
+    container.innerHTML = "<p>Nenhum produto encontrado.</p>";
+    return;
+  }
+
+  filtrados.forEach(p => {
     container.innerHTML += `
       <div class="card-produto">
         <img src="${p.imagem}">
         <h3>${p.nome}</h3>
         <p>${p.descricao}</p>
         <a href="${p.link}" target="_blank">Comprar</a>
-      </div>`;
+      </div>
+    `;
   });
 }
 
+// 🔥 EXEMPLO INICIAL
 mostrarProdutosPorTag("tecnologia");
 </script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
