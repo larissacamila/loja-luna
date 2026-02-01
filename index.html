@@ -297,28 +297,26 @@ async function enviar() {
 
   input.value = "";
   add("Você", msg);
-
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ message: msg, memory })
-    });
-
-    const data = await res.json();
-    memory.push({user: msg, luna: data.resposta});
-    add("Luna", data.resposta);
-
-  } catch {
-    add("Luna", "Erro ao conectar com a API 😢");
-  }
-}
-
-function add(nome, texto) {
-  const div = document.getElementById("messages");
-  div.innerHTML += `<p><b>${nome}:</b> ${texto}</p>`;
-  div.scrollTop = div.scrollHeight;
-}
+fetch("https://luna-api.onrender.com/chat", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    message: pergunta,
+    memory: userMemory
+  })
+})
+.then(res => res.json())
+.then(data => {
+  console.log("Resposta da API:", data); // 👈 IMPORTANTE
+  const resposta = data.resposta || "🌙 Luna não conseguiu responder.";
+  addMessage("Luna", resposta);
+})
+.catch(err => {
+  console.error("Erro fetch:", err);
+  addMessage("Luna", "🌙 Erro ao conectar com a Luna.");
+});
 </script>
 <script>
 const produtos = [
@@ -376,3 +374,4 @@ mostrarProdutosPorTag("tecnologia");
 </body>
 
 </html>
+
